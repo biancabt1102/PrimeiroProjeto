@@ -1,5 +1,5 @@
 ﻿using System;
-
+List<string> listaDeBandas = new List<string>(); 
 
 void ExibirMensagem()
 {
@@ -12,6 +12,25 @@ void ExibirMensagem()
 ╚═════╝░░╚════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░╚══╝  ╚═════╝░░╚════╝░░╚═════╝░╚═╝░░╚══╝╚═════╝░
     ");
     Console.WriteLine("Boas vindas ao Screen Sound!");
+}
+void RegistrarBanda()
+{
+    Console.Clear();
+    Console.WriteLine("Digite um nome de uma banda: ");
+    string nomeBanda = Convert.ToString(Console.ReadLine()!);
+    listaDeBandas.Add(nomeBanda);
+    Console.WriteLine($"O nome da banda: {nomeBanda}");
+    Console.Clear();
+}
+
+void MostrarBandas()
+{
+    Console.Clear();
+    for (int i = 0; i < listaDeBandas.Count; i++)
+    {
+        Console.WriteLine($"Nome da banda {i}: {listaDeBandas[i]}");
+    }
+    Console.Clear();
 }
 
 void ExibirOpcoesDoMenu()
@@ -28,9 +47,11 @@ void ExibirOpcoesDoMenu()
     {
         case 1:
             Console.WriteLine("Você escolheu a opção " + opcao);
+            RegistrarBanda();
             break;
         case 2:
             Console.WriteLine("Você escolheu a opção " + opcao);
+            MostrarBandas();
             break;
         case 3:
             Console.WriteLine("Você escolheu a opção " + opcao);
