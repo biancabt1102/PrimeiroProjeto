@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Security.Cryptography;
 Dictionary<string, List<int>> listaDeBandas = new Dictionary<string, List<int>>();
-listaDeBandas.Add("LinkParking", new List<int> { 1, 2, 3 });
-listaDeBandas.Add("The Beatles", new List<int> ());
 
 void ExibirLogo()
 {
@@ -85,10 +84,37 @@ void AvaliarBandas()
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Banda não encontrada: {ex.Message}");
+            Console.WriteLine($"Erro - AvaliarBandas: {ex.Message}");
         }
     }
     Console.Clear();
+}
+
+void ExibirMedia()
+{
+    Console.Clear();
+    ExibirTituloOpcao("Exibir a média da banda");
+    Console.Write("Digite o nome da banda: ");
+    string banda = Console.ReadLine()!;
+
+    if (listaDeBandas.ContainsKey(banda))
+    {
+        List<int> notasDaBanda = listaDeBandas[banda];
+        Console.WriteLine($"A média da banda {banda} é {notasDaBanda.Average()}");
+        Console.WriteLine("Digite uma tecla para voltar ao menu principal");
+        Console.ReadKey();
+        Console.Clear();
+        ExibirOpcoesDoMenu();
+    }
+    else 
+    {
+        Console.WriteLine($"A banda {banda} não está cadastrada, realize o cadastro.");
+        Console.WriteLine("Digite uma tecla para voltar ao menu principal");
+        Console.ReadKey();
+        Thread.Sleep(2000);
+        Console.Clear();
+        ExibirOpcoesDoMenu();
+    }
 }
 
 void ExibirOpcoesDoMenu()
@@ -99,7 +125,28 @@ void ExibirOpcoesDoMenu()
     Console.WriteLine("Digite 4 para exibir a média de uma banda");
     Console.WriteLine("Digite -1 para sair");
     Console.Write("\nDigite a sua opção: ");
-    int opcao = Convert.ToInt32(Console.ReadLine()!);
+
+    int opcao;
+    string? entrada;
+
+    do
+    {
+        entrada = Console.ReadLine();
+
+        if (string.IsNullOrWhiteSpace(entrada))
+        {
+            Console.WriteLine("Você não digitou nada. Digite uma opção valida: "); ;
+        }
+        else if (!int.TryParse(entrada, out opcao))
+        {
+            Console.WriteLine("Opção errada. Digite um número.");
+        }
+        else
+        {
+            break;
+        }
+
+    } while (true);
     
     switch (opcao)
     {
@@ -113,7 +160,7 @@ void ExibirOpcoesDoMenu()
             AvaliarBandas();
             break;
         case 4:
-            Console.WriteLine("Você escolheu a opção " + opcao);
+            ExibirMedia();
             break;
         case -1:
             break;
