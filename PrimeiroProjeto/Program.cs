@@ -1,7 +1,10 @@
 ﻿using System;
-List<string> listaDeBandas = new List<string>(); 
+using System.Linq.Expressions;
+Dictionary<string, List<int>> listaDeBandas = new Dictionary<string, List<int>>();
+listaDeBandas.Add("LinkParking", new List<int> { 1, 2, 3 });
+listaDeBandas.Add("The Beatles", new List<int> ());
 
-void ExibirMensagem()
+void ExibirLogo()
 {
     Console.WriteLine(@"
 ░██████╗░█████╗░██████╗░███████╗███████╗███╗░░██╗  ░██████╗░█████╗░██╗░░░██╗███╗░░██╗██████╗░
@@ -13,22 +16,77 @@ void ExibirMensagem()
     ");
     Console.WriteLine("Boas vindas ao Screen Sound!");
 }
-void RegistrarBanda()
+void RegistrarBandas()
 {
     Console.Clear();
+    ExibirTituloOpcao("Registro de bandas");
     Console.WriteLine("Digite um nome de uma banda: ");
     string nomeBanda = Convert.ToString(Console.ReadLine()!);
-    listaDeBandas.Add(nomeBanda);
+    listaDeBandas.Add(nomeBanda, new List<int>());
     Console.WriteLine($"O nome da banda: {nomeBanda}");
+    Thread.Sleep(2000);
     Console.Clear();
+    ExibirOpcoesDoMenu();
+}
+
+void ExibirTituloOpcao(string mensagem)
+{
+    int qtde = mensagem.Length;
+    string asterisco = String.Concat(Enumerable.Repeat<string>("*", qtde));
+    Console.WriteLine(asterisco);
+    Console.WriteLine(mensagem);
+    Console.WriteLine(String.Concat(asterisco, "\n"));
 }
 
 void MostrarBandas()
 {
     Console.Clear();
+    ExibirTituloOpcao("Exibindo todas as bandas registradas");
+    foreach (string banda in listaDeBandas.Keys)
+    {
+        Console.WriteLine($"Banda: {banda}");
+    }
+    Console.WriteLine("\nDigite uma tecla para voltar ao menu principal");
+    Console.ReadKey();
+    Console.Clear();
+    ExibirOpcoesDoMenu();
+}
+
+void AvaliarBandas()
+{
+    Console.Clear();
+    ExibirTituloOpcao("Avaliar as bandas");
+    Console.Write("Digite a banda que deseja avaliar: ");
+    string banda = Console.ReadLine()!;
+
     for (int i = 0; i < listaDeBandas.Count; i++)
     {
-        Console.WriteLine($"Nome da banda {i}: {listaDeBandas[i]}");
+        try
+        {
+            if (listaDeBandas.ContainsKey(banda))
+            {
+                Console.WriteLine("Digite uma nota para a banda: ");
+                int nota = Convert.ToInt32(Console.ReadLine()!);
+                listaDeBandas[banda].Add(nota);
+                Console.WriteLine($"A nota {nota} foi registrada com sucesso para a banda {banda}");
+                Thread.Sleep(2000);
+                Console.Clear();
+                ExibirOpcoesDoMenu();
+            }
+            else {
+                Console.WriteLine($"A banda {banda} não foi encontrada.");
+                Console.WriteLine("Digite uma tecla para voltar ao menu principal");
+                Console.ReadKey();
+                Thread.Sleep(2000);
+                Console.Clear();
+                ExibirOpcoesDoMenu();
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Banda não encontrada: {ex.Message}");
+        }
     }
     Console.Clear();
 }
@@ -46,15 +104,13 @@ void ExibirOpcoesDoMenu()
     switch (opcao)
     {
         case 1:
-            Console.WriteLine("Você escolheu a opção " + opcao);
-            RegistrarBanda();
+            RegistrarBandas();
             break;
         case 2:
-            Console.WriteLine("Você escolheu a opção " + opcao);
             MostrarBandas();
             break;
         case 3:
-            Console.WriteLine("Você escolheu a opção " + opcao);
+            AvaliarBandas();
             break;
         case 4:
             Console.WriteLine("Você escolheu a opção " + opcao);
@@ -67,5 +123,5 @@ void ExibirOpcoesDoMenu()
     }
 }
 
-ExibirMensagem();
+ExibirLogo();
 ExibirOpcoesDoMenu();
