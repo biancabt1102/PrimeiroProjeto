@@ -1,6 +1,6 @@
 ﻿namespace PrimeiroProjeto.Models;
 
-class Episodio
+internal class Episodio
 {
     private List<string> convidados = new();
     public Episodio(int ordem, string titulo, int duracao)
