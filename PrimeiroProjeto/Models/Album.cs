@@ -10,7 +10,7 @@ internal class Album: IAvaliavel
     }
     public string Nome { get; }
     public int DuracaoTotal => musicas.Sum(m => m.Duracao);
-    public List<Musica> Musicas => musicas;
+    public IEnumerable<Musica> Musicas => musicas;
     public void AdicionarMusica(Musica musica)
     {
         musicas.Add(musica);
